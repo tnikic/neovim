@@ -1,25 +1,23 @@
 return {
 	"neovim/nvim-lspconfig",
 
+	event = { "BufReadPre", "BufNewFile" },
+
 	dependencies = {
 		-- Use LSP for completion
 		"hrsh7th/cmp-nvim-lsp",
+		"williamboman/mason-lspconfig.nvim",
 		-- File renames take effect everywhere
 		{
 			"antosha417/nvim-lsp-file-operations",
 			config = true,
-		},
-		-- Better LSP for Vim lua files
-		{
-			"folke/lazydev.nvim",
-			ft = "lua",
-			opts = {},
 		},
 	},
 
 	config = function()
 		local lspconfig = require("lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local mason_lspconfig = require("mason-lspconfig")
 
 		------------------------------------
 		-- Icons
@@ -35,29 +33,28 @@ return {
 		------------------------------------
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		-- Go
-		lspconfig.gopls.setup({
-			capabilities = capabilities,
-		})
-
-		-- Lua
-		lspconfig.lua_ls.setup({
-			capabilities = capabilities,
-		})
-
-		-- HTML
-		lspconfig.html.setup({
-			capabilities = capabilities,
-		})
-
-		-- CSS
-		lspconfig.cssls.setup({
-			capabilities = capabilities,
-		})
-
-		-- Tailwind
-		lspconfig.tailwindcss.setup({
-			capabilities = capabilities,
+		mason_lspconfig.setup_handlers({
+			-- default handler for installed servers
+			function(server_name)
+				lspconfig[server_name].setup({
+					capabilities = capabilities,
+				})
+			end,
+			["lua_ls"] = function()
+				lspconfig["lua_ls"].setup({
+					capabilities = capabilities,
+					settings = {
+						Lua = {
+							diagnostics = {
+								globals = { "vim" },
+							},
+							completion = {
+								callSnippet = "Replace",
+							},
+						},
+					},
+				})
+			end,
 		})
 
 		------------------------------------

@@ -6,10 +6,22 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				go = { "goimports" },
+				-- basics
 				lua = { "stylua" },
+				markdown = { "prettier" },
+				-- datatypes
+				json = { "prettier" },
+				yaml = { "prettier" },
+				-- backend
+				go = { "goimports" },
+				python = { "isort", "black" },
+				-- frontend
 				html = { "prettier" },
 				css = { "prettier" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
 			},
 		})
 

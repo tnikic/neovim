@@ -1,3 +1,4 @@
 return {
-  "christoomey/vim-tmux-navigator",
+	"alexghergh/nvim-tmux-navigation",
+	"github/copilot.vim",
 }

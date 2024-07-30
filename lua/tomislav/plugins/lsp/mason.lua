@@ -15,26 +15,39 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = {
-				-- golang
-				"gopls",
 				-- lua
 				"lua_ls",
+				-- backend
+				"gopls",
+				"pyright",
 				-- frontend
 				"html",
 				"cssls",
 				"tailwindcss",
+				"tsserver",
+				-- devops
+				"terraformls",
+				"dockerls",
 			},
 		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				-- golang
-				"goimports",
-				"golangci-lint",
 				-- lua
 				"stylua",
+				-- backend
+				"goimports",
+				"golangci-lint",
+				"pylint",
+				"isort",
+				"black",
 				-- frontend
 				"prettier",
+				"eslint_d",
+				-- devops
+				"hadolint",
+				"tflint",
+				"tfsec",
 			},
 		})
 	end,
